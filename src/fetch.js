@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 import { isObject, forEach, set, castArray, startsWith } from 'lodash';
 
 module.exports = async (entityDefinition, ctx) => {
@@ -12,6 +13,7 @@ module.exports = async (entityDefinition, ctx) => {
   const requestOptions = {
     method: 'GET',
     url: apiBase,
+    paramsSerializer: (params) => qs.stringify(params),
     // Place global params first, so that they can be overriden by api.qs
     params: { _limit: queryLimit, ...api?.qs },
     headers: addAuthorizationHeader({}, jwtToken),
